@@ -23,6 +23,8 @@ namespace Hilltop.Core.Web.Controllers.Helpers
                 {
                     actions.Add(action.Name, action.Uri);
                 }
+
+                base.AddValue("actions", actions);
             }
             else
             {

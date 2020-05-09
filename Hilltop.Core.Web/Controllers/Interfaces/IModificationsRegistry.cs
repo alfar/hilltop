@@ -5,7 +5,7 @@ namespace Hilltop.Core.Web.Controllers.Interfaces
 {
     public interface IModificationsRegistry
     {
-         void AddModifier<T>(Func<object, IModifier> modifier);
+         void AddModifier<T>(Func<T, IModifier> modifier);
          IReadOnlyCollection<IModifier> GetModifiers(object target);
     }
 }

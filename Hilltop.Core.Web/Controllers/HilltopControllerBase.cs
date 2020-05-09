@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Hilltop.Core.Web.Controllers.Attributes;
 using Hilltop.Core.Web.Controllers.Helpers;
 using Hilltop.Core.Web.Controllers.Interfaces;
+using System.Dynamic;
 
 namespace Hilltop.Core.Web.Controllers
 {
@@ -22,7 +23,7 @@ namespace Hilltop.Core.Web.Controllers
                 modifier.Modify(actionable);
             }
 
-            return base.Ok(actionable);
+            return base.Ok(actionable.Value.ToObject<ExpandoObject>());
         }
     }
 }
