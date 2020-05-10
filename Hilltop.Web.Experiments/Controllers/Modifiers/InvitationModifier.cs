@@ -18,10 +18,6 @@ namespace Hilltop.Web.Experiments.Controllers.Modifiers
             {
                 modifiable.AddValue("actions", new Action("invite", "/invitations/invite/"));
             }
-            if (invitee.CanUninvite)
-            {
-                modifiable.AddValue("actions", new Action("uninvite", "/invitations/uninvite/"));
-            }
         }
     }
 }

@@ -11,9 +11,9 @@ namespace Hilltop.Web.Experiments.Controllers
         [HttpPost]
         public IActionResult Invite([FromBody] InviteRequest inviteRequest)
         {
-            var invitation = new Invitation(inviteRequest.Invitee, inviteRequest.EventDate, inviteRequest.Subject);
+            var invitation = new Invitation(inviteRequest.Invitee, inviteRequest.EventDate, inviteRequest.Subject);            
 
-            return Created("/invitations/1", invitation);
+            return NoContent();
         }
     }
 }

@@ -16,6 +16,8 @@ using Hilltop.Core.Web.Controllers.Interfaces;
 using Hilltop.Web.Experiments.Controllers.Modifiers;
 using Hilltop.Web.Experiments.Domain;
 
+using Microsoft.OpenApi.Models;
+
 namespace Hilltop.Web.Experiments
 {
     public class Startup
@@ -32,6 +34,12 @@ namespace Hilltop.Web.Experiments
         {
             services.AddHilltop();
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hilltop API", Version = "v1" });
+                });
+
+            services.AddSingleton<IResourceRepository, ResourceRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +49,14 @@ namespace Hilltop.Web.Experiments
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                    c.RoutePrefix = string.Empty;
+                });
 
             app.UseHilltop();
 

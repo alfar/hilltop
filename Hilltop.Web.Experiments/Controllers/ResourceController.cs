@@ -8,6 +8,7 @@ using Hilltop.Core.Web.Controllers;
 using Hilltop.Core.Web.Controllers.Interfaces;
 
 using Hilltop.Web.Experiments.Domain;
+using Hilltop.Web.Experiments.Controllers.DataTransfer;
 
 namespace Hilltop.Web.Experiments.Controllers
 {
@@ -15,17 +16,33 @@ namespace Hilltop.Web.Experiments.Controllers
     [Route("[controller]")]
     public class ResourceController : HilltopControllerBase
     {
-        private readonly ILogger<ResourceController> _logger;
+        private readonly IResourceRepository repository;
+        private readonly ILogger<ResourceController> logger;
 
-        public ResourceController(ILogger<ResourceController> logger, IModificationsRegistry modifications) : base(modifications)
+        public ResourceController(IResourceRepository repository, ILogger<ResourceController> logger, IModificationsRegistry modifications) : base(modifications)
         {
-            _logger = logger;
+            this.repository = repository;
+            this.logger = logger;
         }
 
-        [HttpGet]
-        public IActionResult GetResource()
+        [HttpGet, Route("[controller]/{guid}")]
+        public IActionResult GetResource(Guid guid)
         {
-            return Ok(new Resource() { Name = "Laptop" });
+            var result = repository.GetResource(guid);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult CreateResource(CreateResourceRequest createRequest)
+        {
+            repository.CreateResource(createRequest.Guid, createRequest.Name);
+            return NoContent();
         }
     }
 }
