@@ -44,5 +44,20 @@ namespace Hilltop.Web.Experiments.Controllers
             repository.CreateResource(createRequest.Guid, createRequest.Name);
             return NoContent();
         }
+
+        [HttpPost, Route("[controller]/{guid}/bookings")]
+        public IActionResult BookResource(Guid guid, [FromBody] BookResourceRequest bookRequest)
+        {
+            var resource = repository.GetResource(guid);
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            resource.AddBooking(bookRequest.BookingDate, bookRequest.Booker);
+
+            return NoContent();
+        }
     }
 }
