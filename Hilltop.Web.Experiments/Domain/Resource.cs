@@ -2,22 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Hilltop.Core.Domain;
+
 namespace Hilltop.Web.Experiments.Domain
 {
-    public class Resource : IResource, IInvitable
+    public class Resource : BaseEntity, IResource
     {
         private readonly List<Booking> bookings;
-        public Resource(Guid guid, string name)
+        public Resource(Guid id, string name) : base(id)
         {
-            Guid = guid;
             Name = name;
             bookings = new List<Booking>();
         }
 
-        public Guid Guid { get; }
         public string Name { get; }
-
-        public bool CanInvite => true;
 
         public IReadOnlyCollection<Booking> Bookings => bookings.AsReadOnly();
 

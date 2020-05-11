@@ -9,6 +9,7 @@ using Hilltop.Core.Web.Controllers.Interfaces;
 
 using Hilltop.Web.Experiments.Domain;
 using Hilltop.Web.Experiments.Controllers.DataTransfer;
+using Hilltop.Core.Repository;
 
 namespace Hilltop.Web.Experiments.Controllers
 {
@@ -16,10 +17,10 @@ namespace Hilltop.Web.Experiments.Controllers
     [Route("[controller]")]
     public class ResourceController : HilltopControllerBase
     {
-        private readonly IResourceRepository repository;
+        private readonly IRepository<Resource> repository;
         private readonly ILogger<ResourceController> logger;
 
-        public ResourceController(IResourceRepository repository, ILogger<ResourceController> logger, IModificationsRegistry modifications) : base(modifications)
+        public ResourceController(IRepository<Resource> repository, ILogger<ResourceController> logger, IModificationsRegistry modifications) : base(modifications)
         {
             this.repository = repository;
             this.logger = logger;
@@ -28,7 +29,7 @@ namespace Hilltop.Web.Experiments.Controllers
         [HttpGet, Route("[controller]/{guid}")]
         public IActionResult GetResource(Guid guid)
         {
-            var result = repository.GetResource(guid);
+            var result = repository.GetByGuid(guid);
 
             if (result != null)
             {
@@ -41,14 +42,15 @@ namespace Hilltop.Web.Experiments.Controllers
         [HttpPost]
         public IActionResult CreateResource(CreateResourceRequest createRequest)
         {
-            repository.CreateResource(createRequest.Guid, createRequest.Name);
+            var resource = new Resource(createRequest.Guid, createRequest.Name);
+            repository.Add(resource);
             return NoContent();
         }
 
         [HttpPost, Route("[controller]/{guid}/bookings")]
         public IActionResult BookResource(Guid guid, [FromBody] BookResourceRequest bookRequest)
         {
-            var resource = repository.GetResource(guid);
+            var resource = repository.GetByGuid(guid);
 
             if (resource == null)
             {

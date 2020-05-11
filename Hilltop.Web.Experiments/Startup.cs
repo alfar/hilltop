@@ -17,6 +17,7 @@ using Hilltop.Web.Experiments.Controllers.Modifiers;
 using Hilltop.Web.Experiments.Domain;
 
 using Microsoft.OpenApi.Models;
+using Hilltop.Core.Repository;
 
 namespace Hilltop.Web.Experiments
 {
@@ -39,7 +40,7 @@ namespace Hilltop.Web.Experiments
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hilltop API", Version = "v1" });
                 });
 
-            services.AddSingleton<IResourceRepository, ResourceRepository>();
+            services.AddSingleton<IRepository<Resource>, ResourceRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

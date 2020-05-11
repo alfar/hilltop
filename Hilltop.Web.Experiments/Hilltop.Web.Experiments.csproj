@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hilltop.Core.Web\Hilltop.Core.Web.csproj" />
+    <ProjectReference Include="..\Hilltop.Core\Hilltop.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
